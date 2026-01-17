@@ -1,5 +1,5 @@
 //Imports
-#include "Node.h"
+#include "node.h"
 
 //Constructor
 Node::Node(Student* inputStudent) {
