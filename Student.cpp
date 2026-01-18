@@ -4,18 +4,45 @@
 using namespace std;
 
 Student::Student(){
-  //m_name[0]='\0';
+
 }
 Student::~Student(){
 }
 
-//saves name
-void Student::name(const char* first_name){
-  strcpy(m_name, first_name);
+
+//saves firstname
+void Student::firstname(const char* first_name){
+  strcpy(m_firstname, first_name);
+}
+//returns firstname
+const char* Student::firstname(){
+  return m_firstname;
 }
 
 
-//returns name
-const char* Student::name(){
-  return m_name;
+
+//saves lastname
+void Student::lastname(const char* last_name){
+  strcpy(m_lastname, last_name);
+}
+//returns lasname
+const char* Student::lastname(){
+  return m_lastname;
+}
+
+// saves then returns id
+void Student::setID(int identify){
+  id=identify;
+}
+int Student::getID(){
+  return id;
+}
+
+
+// saves then returns gpa
+void Student::setGPA(float my_gpa){
+  gpa=my_gpa;
+}
+float Student::getGPA(){
+  return gpa;
 }
