@@ -1,6 +1,7 @@
 # include <iostream>
 # include "node.h"
 # include "Student.h"
+# include <cstring>
 using namespace std;
 
 void add(const char newfirst[100],const char newlast[100], int my_id, float my_gpa, Node* &head);
@@ -9,15 +10,33 @@ void print(Node* next, Node* head);
 
 int main(){
   Node* head = NULL;
+  cout << "Commands are:" << endl << "     ADD" << endl << "     PRINT" << endl << "     DELETE" << endl << "     QUIT" << endl << "     AVERAGE" << endl<<endl;
+  char command[100];
+  do{
+  cout << "What would you like to do? ";
+  cin >> command;
+  if (strcmp(command, "ADD")==0){
+    char f_name[100];
+    char l_name[100];
+    int identify;
+    float grade;
+    cin >> f_name;
+    cin >> l_name;
+    cin >> identify;
+    cin >> grade;
+    add(f_name, l_name,identify, grade, head);
+  }else if(strcmp(command, "PRINT")==0){
+    print(head,head);
+  }else if(strcmp(command, "AVERAGE")==0){
+    cout<<"I will use recursion" <<endl;
+  }else if(strcmp(command, "DELETE")==0){
+    int del_id;
+    cout<<"What is the ID of the student you would like to delete? " << endl;
+    cin >> del_id;
+  }
+  cout << endl;
+  }while (strcmp(command, "QUIT") !=0);
 
-  //ADD STUDENT THINGS TO NODE
-  add("Student1" ,"last", 455929, 4.00, head);
-  add("Student2", "last2", 355979, 1.00, head);
-  add("Student3", "lasst3", 255429, 2.00, head);
-  add("a_student", "last4", 155929, 3.00, head);
-  
-  //PRINT NODE OF STUDENTS
-  print(head, head);
 
   //delete s and n from add()
   Node* next = head;
