@@ -19,12 +19,24 @@ void round(float num, int dec){ //prints up to the 100ths place
 }
 
 
-void numerical(Node* next, Node* head){
+void numerical(Node* head, Node* next){
+  if(head->getNext()==NULL){
+    return;
+  }
+  if (next->getNext() == NULL){
+    numerical(head->getNext(),head->getNext()->getNext());
+  }
+  if(head->getStudent()->getID() > next->getStudent()->getID()){
+    Student* temp_head = head->getStudent();
+    Student* temp_next = next->getStudent();
+    head->setStudent(temp_next);
+    next->setStudent(temp_head);
+    numerical(head, next->getNext());
+  }
   if(next != NULL){
-    cout << next->getStudent()->getID();
-    //  Node* next = head;
+    cout << head->getStudent()->getID() << ": " << head->getStudent()->getID();//next->getStudent();
     cout << ", ";
-    numerical(next->getNext(), head);
+    numerical(head, next->getNext());
   }
   
 }
@@ -56,7 +68,7 @@ int main(){
     add("Andrew", "Jeddeloh", 468921, 650.12, head);
     add("Josh", "Bowles", 903826, 3.2565, head);
     add("Jason", "Galbraith", 487329, .1005, head);
-    numerical(head, head);
+    numerical(head, head->getNext());
   }else if(strcmp(command, "PRINT")==0){
     print(head,head);
   }else if(strcmp(command, "AVERAGE")==0){
