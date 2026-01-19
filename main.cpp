@@ -7,6 +7,28 @@ using namespace std;
 void add(const char newfirst[100],const char newlast[100], int my_id, float my_gpa, Node* &head);
 void print(Node* next, Node* head);
 
+void round(float num, int dec){ //prints up to the 100ths place
+  if (dec==3){//if not a decimal...
+    cout<<int(num) << ".";//print then add the dot
+    round(num-int(num), 2);
+  }else if(dec > 0){//recursive part
+    num = num*10;//move the tenths place into the ones place
+    cout << int(num); //print the ones place
+    round((num-int(num)),dec-1); // delete the ones place and go onto the next decimal
+  }
+}
+
+
+void numerical(Node* next, Node* head){
+  if(next != NULL){
+    cout << next->getStudent()->getID();
+    //  Node* next = head;
+    cout << ", ";
+    numerical(next->getNext(), head);
+  }
+  
+}
+
 
 int main(){
   Node* head = NULL;
@@ -20,11 +42,21 @@ int main(){
     char l_name[100];
     int identify;
     float grade;
+    /*
+    cout << "What's the student's first name? ";
     cin >> f_name;
+    cout << "What's " << f_name << "'s last name? ";
     cin >> l_name;
+    cout << "What's " << f_name << "'s student ID? ";
     cin >> identify;
+    cout << "What's " << f_name << "'s GPA? ";
     cin >> grade;
     add(f_name, l_name,identify, grade, head);
+    */
+    add("Andrew", "Jeddeloh", 468921, 650.12, head);
+    add("Josh", "Bowles", 903826, 3.2565, head);
+    add("Jason", "Galbraith", 487329, .1005, head);
+    numerical(head, head);
   }else if(strcmp(command, "PRINT")==0){
     print(head,head);
   }else if(strcmp(command, "AVERAGE")==0){
@@ -82,7 +114,9 @@ void print(Node* next, Node* head){
     cout << "list: " << endl;
   }
   if(next != NULL){
-    cout << "     " << next->getStudent()->firstname() << ", " << next->getStudent()->lastname() << ", " << next->getStudent()->getID() << ", " << next->getStudent()->getGPA() << endl;
+    cout << "     " << next->getStudent()->firstname() << " " << next->getStudent()->lastname() << ", "<< next->getStudent()->getID() << ", ";
+    round(next->getStudent()->getGPA(),3);
+    cout << endl;
     print(next->getNext(), head);
   }
 }
