@@ -19,28 +19,42 @@ void round(float num, int dec){ //prints up to the 100ths place
 }
 
 
+//orders things by the ids
 void numerical(Node* head, Node* next){
-  if(head->getNext()==NULL){
+  if(head->getNext()==NULL || next == NULL){ //if at the end of the list, leave
     return;
   }
-  if (next->getNext() == NULL){
+  if (next->getNext() == NULL){ //if the compared value is at the end, move the 1st thing over
     numerical(head->getNext(),head->getNext()->getNext());
   }
-  if(head->getStudent()->getID() > next->getStudent()->getID()){
+  if(head->getStudent()->getID() > next->getStudent()->getID()){ //swap 2 nodes
     Student* temp_head = head->getStudent();
     Student* temp_next = next->getStudent();
     head->setStudent(temp_next);
     next->setStudent(temp_head);
     numerical(head, next->getNext());
-  }
+  } // move the next value over
   if(next != NULL){
-    cout << head->getStudent()->getID() << ": " << head->getStudent()->getID();//next->getStudent();
-    cout << ", ";
     numerical(head, next->getNext());
   }
   
 }
 
+
+void remove(int del_id, Node* head){
+  if (head == NULL || head->getNext() == NULL){
+    return;
+  }
+  //if(head check head 
+  if(head->getNext()->getStudent()->id == del_id){
+    Node* temp = head->getNext();
+    head->setNext(head->getNext()->getNext());
+    delete temp->getStudent();//head->getNext()->getStudent();
+    delete temp;//head->getNext();
+    
+  }
+  remove(del_id, head->getNext());
+}
 
 int main(){
   Node* head = NULL;
@@ -68,6 +82,9 @@ int main(){
     add("Andrew", "Jeddeloh", 468921, 650.12, head);
     add("Josh", "Bowles", 903826, 3.2565, head);
     add("Jason", "Galbraith", 487329, .1005, head);
+    add("drew", "Jeddeloh", 368921, 650.12, head);
+    add("shE", "Bowles", 9066, 3.2565, head);
+    add("son", "Galbraith", 287329, .1005, head);
     numerical(head, head->getNext());
   }else if(strcmp(command, "PRINT")==0){
     print(head,head);
@@ -77,6 +94,7 @@ int main(){
     int del_id;
     cout<<"What is the ID of the student you would like to delete? " << endl;
     cin >> del_id;
+    delete(del_id, head);
   }
   cout << endl;
   }while (strcmp(command, "QUIT") !=0);
