@@ -40,22 +40,117 @@ void numerical(Node* head, Node* next){
   
 }
 
+//goes through all th gpas and adds them then divides them by pass (# of students)
+void average(Node* head, float sum, int pass){
+  if(head->getNext() == NULL){
+    sum = sum + head->getStudent()->gpa;
+    float avg = sum/(pass+1);
+    cout<< "Average: ";
+    round(avg, 3); //rounds it to 2 decimals
+    cout << endl;
+    return;
+  }
+  sum = sum + head->getStudent()->gpa;//adds the next gpa to the sum
+  average(head->getNext(), sum, pass+1); //recursivness
+  
+}
 
-void remove(int del_id, Node* head){
+/*
+void remove(int del_id, Node*& head){
+  cout << "checkpoint 1";
   if (head == NULL || head->getNext() == NULL){
     return;
   }
-  //if(head check head 
+  //IF YOU NEED TO DELETE 1ST THING
+  if(head->getStudent()->getID() == del_id){
+    Node* temp = head;
+    Node* next_head = temp->getNext();
+    delete head->getStudent();
+    delete head;
+    head = next_head;
+    cout <<"checkpoint 4";
+    }
+  Node* temp = head->getNext();
+  //IF U NEED TO DELETE 2ND THING
   if(head->getNext()->getStudent()->id == del_id){
-    Node* temp = head->getNext();
     head->setNext(head->getNext()->getNext());
     delete temp->getStudent();//head->getNext()->getStudent();
     delete temp;//head->getNext();
     
+    cout <<"checkpoint 3";
   }
-  remove(del_id, head->getNext());
+  cout <<"checkpoint 2";
+  temp = head->getNext();
+  remove(del_id, temp);
 }
 
+
+void remove(int del_id, Node*& head) {
+  if(head == NULL){// || head->getNext()==NULL){
+    return;
+  }
+  if(head->getStudent()->getID() == del_id) {
+    Node* temp = head;
+    head = head->getNext();
+    delete temp->getStudent();
+    delete temp;
+    remove(del_id, head);
+  }
+
+  Node* current = head;
+  if (current->getNext()->getStudent()->getID() == del_id) {
+    Node* temp = current->getNext();
+    current->setNext(temp->getNext());
+    delete temp->getStudent();
+    delete temp;
+    remove(del_id, current->getNext());
+  } else {
+    current = current->getNext();
+    remove(del_id, current);
+  }
+  
+}
+
+
+
+void remove(int del_id, Node** head) {
+  if (*head == NULL) {
+    return;
+  }
+  
+  // If this node should be delete
+  d
+  if ((*head)->getStudent()->getID() == del_id) {
+    Node* temp = *head;
+    *head = (*head)->getNext();
+    delete temp->getStudent();
+    delete temp;
+    remove(del_id, head);  // continue with new head
+    //return;
+  }else{
+    // Recurse on the rest of the list
+    remove(del_id, &((*head)->getNext()));
+  }
+}
+*/
+void remove(int del_id, Node*& head) {
+    if (head == nullptr) return;
+
+    // If current node should be deleted
+    if (head->getStudent()->getID() == del_id) {
+        Node* temp = head;
+        head = head->getNext();        // move head forward
+        delete temp->getStudent();     // delete student object
+        delete temp;                   // delete node
+        //remove(del_id, head);      // recurse on new head
+        return;                        // important: stop using deleted node
+    }else{
+      head = head->getNext();
+      remove(del_id, head);
+    }
+}
+
+///START MAIN FUNTION (sry theres some functions above and below main, I was inconsistant...)
 int main(){
   Node* head = NULL;
   cout << "Commands are:" << endl << "     ADD" << endl << "     PRINT" << endl << "     DELETE" << endl << "     QUIT" << endl << "     AVERAGE" << endl<<endl;
@@ -79,38 +174,40 @@ int main(){
     cin >> grade;
     add(f_name, l_name,identify, grade, head);
     */
-    add("Andrew", "Jeddeloh", 468921, 650.12, head);
-    add("Josh", "Bowles", 903826, 3.2565, head);
-    add("Jason", "Galbraith", 487329, .1005, head);
-    add("drew", "Jeddeloh", 368921, 650.12, head);
-    add("shE", "Bowles", 9066, 3.2565, head);
-    add("son", "Galbraith", 287329, .1005, head);
-    numerical(head, head->getNext());
+    add("Andrew", "Jeddeloh", 21, 1, head);
+    add("Josh", "Bowles", 26, 1, head);
+    add("Jason", "Galbraith", 487329, 2, head);
+    add("drew", "Jeddeloh", 368921, 2, head);
+    add("shE", "Bowles", 9066, 3, head);
+    add("son", "Galbraith", 287329, 7, head);
+    numerical(head, head);
   }else if(strcmp(command, "PRINT")==0){
     print(head,head);
   }else if(strcmp(command, "AVERAGE")==0){
-    cout<<"I will use recursion" <<endl;
+    average(head,0,0);
   }else if(strcmp(command, "DELETE")==0){
     int del_id;
-    cout<<"What is the ID of the student you would like to delete? " << endl;
+    cout<<"What is the ID of the student you would like to delete? ";
     cin >> del_id;
-    delete(del_id, head);
+    cout << endl << "here";
+    remove(del_id, head);
+    cout << "done";
   }
   cout << endl;
   }while (strcmp(command, "QUIT") !=0);
 
 
   //delete s and n from add()
-  Node* next = head;
-  while (next != NULL) {
-    Node* nextNode = next->getNext();
-    delete next;
-    next = nextNode;
+  while (head != NULL) {
+    Node* temp = head;
+    head = head->getNext();
+    delete temp->getStudent();
+    delete temp;
   }
-  head = NULL;  // list is now empty
-  return 0;
+  head = NULL;
 }
 
+//adding student info to node
 void add(const char newfirst[100], const char newlast[100], int my_id, float my_gpa, Node* &head){
   Node* next = head;
   if (next == NULL){//if empty list
