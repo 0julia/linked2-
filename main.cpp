@@ -79,10 +79,15 @@ void remove(int del_id, Node*& head){
     delete temp;//DONT NEED TO DELETE TEMP->GETSTUDENT BECAUSE NODE DELETE THAT
   }
   */
+   Node* next = head->getNext();   // store copy safely
+    remove(del_id, next);           // recurse
+    head->setNext(next);            // reconnect list
+    /*
   Node* &temp = head->getNext();
   
   remove(del_id, temp);
-}
+    */
+  }
 
 /*
 
