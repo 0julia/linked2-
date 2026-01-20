@@ -65,11 +65,12 @@ void remove(int del_id, Node*& head){
   //IF YOU NEED TO DELETE 1ST THING
   if(head->getStudent()->getID() == del_id){
     Node* temp = head;
-    Node* next_head = temp->getNext();
-    delete head;
-    head = next_head;
+    head = head->getNext();//Node* next_head = temp->getNext();
+    delete temp;
+    return; //head = next_head;
   }
-  Node* temp = head->getNext();
+  /*
+  Node* temp = head;
 
   //IF U NEED TO DELETE 2ND THING
   if(head->getNext()->getStudent()->id == del_id){
@@ -77,8 +78,9 @@ void remove(int del_id, Node*& head){
   
     delete temp;//DONT NEED TO DELETE TEMP->GETSTUDENT BECAUSE NODE DELETE THAT
   }
+  */
+  Node* &temp = head->getNext();
   
-  temp = head->getNext();
   remove(del_id, temp);
 }
 
