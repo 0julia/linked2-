@@ -69,87 +69,11 @@ void remove(int del_id, Node*& head){
     delete temp;
     return; //head = next_head;
   }
-  /*
-  Node* temp = head;
-
-  //IF U NEED TO DELETE 2ND THING
-  if(head->getNext()->getStudent()->id == del_id){
-    head->setNext(head->getNext()->getNext());
-  
-    delete temp;//DONT NEED TO DELETE TEMP->GETSTUDENT BECAUSE NODE DELETE THAT
-  }
-  */
    Node* next = head->getNext();   // store copy safely
     remove(del_id, next);           // recurse
     head->setNext(next);            // reconnect list
-    /*
-  Node* &temp = head->getNext();
-  
-  remove(del_id, temp);
-    */
+
   }
-
-/*
-
-Node* remove(int del_id, Node*& head) { //returns new linked list
-  if (head ==NULL){
-    return;
-  }
-
-    // If current node should be deleted
-  Student* s = head->getStudent();
-  if (s->getID() == del_id) {
-    Node* temp = head->getNext();
-    //head = head->getNext();
-    delete s;
-    delete head;
-    //remove(del_id, head);
-    return temp;
-  }//else{
-  //Node* nextNode = head->getNext();
-  //remove(del_id, nextNode);      // recurse on next node
-  //head->setNext(nextNode);       // fix links after recursion
-  //remove(del_id, head->getNext());
-  head->setNext(remove(del_id, head->getNext()));
-  return head;
-}
-
-
-
-
-Node* removeRecursive(Node* head, int idToDelete) {
-    if (head == nullptr) {
-        // Base case: empty list
-        return nullptr;
-    }
-
-    Student* s = head->getStudent();
-    if (s != nullptr && s->getID() == idToDelete) {
-        // Found the node to delete
-        Node* nextNode = head->getNext();
-        //delete s;      // delete the Student object
-        delete head;   // delete the Node itself
-        return nextNode; // return the next node to link correctly
-    }
-
-    // Recurse for the rest of the list
-    head->setNext(removeRecursive(head->getNext(), idToDelete));
-    return head;
-}
-
-
-
-// Wrapper function to use in main
-void remove(int idToDelete, Node*& head) {
-    if (head == nullptr) {
-        cout << "The list is empty. Nothing to delete." << endl;
-        return;
-    }
-    head = removeRecursive(head, idToDelete);
-    cout << "Deletion complete (if the ID existed)." << endl;
-}
-
-*/
 
 ///START MAIN FUNTION (sry theres some functions above and below main, I was inconsistant...)
 int main(){
@@ -164,7 +88,6 @@ int main(){
     char l_name[100];
     int identify;
     float grade;
-    /*
     cout << "What's the student's first name? ";
     cin >> f_name;
     cout << "What's " << f_name << "'s last name? ";
@@ -174,13 +97,6 @@ int main(){
     cout << "What's " << f_name << "'s GPA? ";
     cin >> grade;
     add(f_name, l_name,identify, grade, head);
-    */
-    //    add("Andrew", "Jeddeloh", 21, 1, head);
-    //add("Josh", "Bowles", 26, 1, head);
-    //add("Jason", "Galbraith", 487329, 2, head);
-    //add("drew", "Jeddeloh", 368921, 2, head);
-    add("shE", "Bowles", 906, 3, head);
-    add("son", "Galbraith", 29, 7, head);
     numerical(head, head);
   }else if(strcmp(command, "PRINT")==0){
     print(head,head);
@@ -200,10 +116,10 @@ int main(){
   while (head != NULL) {
     Node* temp = head;
     head = head->getNext();
-    delete temp->getStudent();
     delete temp;
   }
   head = NULL;
+  cout << "Aborted";
 }
 
 //adding student info to node
@@ -231,6 +147,7 @@ void add(const char newfirst[100], const char newlast[100], int my_id, float my_
     Node* n = new Node(s);
     next->setNext(n);
   }
+  
 }
 
 
