@@ -77,6 +77,7 @@ void remove(int del_id, Node*& head){
 
 ///START MAIN FUNTION (sry theres some functions above and below main, I was inconsistant...)
 int main(){
+  cout<<"HI";
   Node* head = NULL;
   cout << "Commands are:" << endl << "     ADD" << endl << "     PRINT" << endl << "     DELETE" << endl << "     QUIT" << endl << "     AVERAGE" << endl<<endl;
   char command[100];
